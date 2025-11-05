@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Catálogo Star Sport Guatemala</title>
+<style>
+  body { font-family: 'Poppins', sans-serif; margin:0; padding:0; background:#fff; color:#111; }
+  header { text-align:center; padding:20px; border-bottom:1px solid #eee; }
+  header h1 { margin:0; font-size:1.8rem; font-weight:700; }
+  header p { margin:5px 0 0; font-size:0.95rem; color:#555; }
+  
+  .filtros { text-align:center; margin:15px 0; }
+  .filtros button { background:#f5f5f5; border:1px solid #ddd; border-radius:25px; padding:8px 16px; margin:0 5px 5px 5px; cursor:pointer; font-size:14px; transition:all 0.3s ease; }
+  .filtros button:hover, .filtros button.activo { background:#000; color:#fff; }
+
+  /* Buscador */
+  #buscarCodigo { padding:6px 12px; width:200px; border-radius:6px; border:1px solid #ccc; margin-bottom:15px; }
+
+  .catalogo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:20px;
+    padding:20px;
+    max-width:1000px;
+    margin:auto;
+  }
+
+  .producto {
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:16px;
+    padding:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    text-align:center;
+    transition:transform 0.3s;
+  }
+  .producto:hover { transform:translateY(-3px); }
+
+  .carousel { position:relative; overflow:hidden; border-radius:12px; }
+  .carousel img { width:100%; height:180px; object-fit:cover; display:none; border-radius:12px; cursor:pointer; }
+  .carousel img.active { display:block; }
+  .carousel button { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.4); color:white; border:none; font-size:20px; padding:5px 10px; border-radius:50%; cursor:pointer; }
+  .carousel .prev { left:10px; } .carousel .next { right:10px; }
+
+  h2 { font-size:1rem; margin:10px 0 5px; }
+  .precio { color:#0a9e26; font-weight:bold; margin:0; }
+  .descripcion { font-size:0.9rem; color:#666; margin:6px 0 10px; line-height:1.4; }
+  .btn-whatsapp { display:inline-block; background:#25D366; color:white; text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:600; transition:0.3s; }
+  .btn-whatsapp:hover { background:#1ebe5d; }
+  footer { text-align:center; font-size:0.9rem; color:#666; padding:15px; border-top:1px solid #eee; margin-top:30px; }
+
+  /* Lightbox */
+  .lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:10000; flex-direction:column; }
+  .lightbox img { max-width:90%; max-height:80%; border-radius:12px; box-shadow:0 0 25px rgba(255,255,255,0.2); }
+  .lightbox button { background:none; border:none; color:white; font-size:2rem; cursor:pointer; margin:10px; }
+  .cerrar { position:absolute; top:20px; right:30px; color:white; font-size:2.5rem; cursor:pointer; }
+  .cerrar:hover { color:red; }
+
+  /* Responsive */
+  @media(max-width:768px){ .catalogo { grid-template-columns:repeat(2,1fr); gap:15px; padding:15px; } .carousel img{height:160px;} }
+  @media(max-width:480px){ .catalogo { grid-template-columns:repeat(2,1fr); gap:10px; padding:10px; } .carousel img{height:140px;} .btn-whatsapp{display:block;width:100%; box-sizing:border-box;text-align:center; padding:6px 10px; font-size:0.85rem;} }
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Star Sport Guatemala</h1>
+  <p>Tenis tipo running para caballero y dama</p>
+</header>
+
+<div class="filtros">
+  <button class="activo" onclick="filtrar('todos')">Todos</button>
+  <button onclick="filtrar('caballero')">Caballero</button>
+  <button onclick="filtrar('dama')">Dama</button>
+</div>
+
+<!-- Buscador por código -->
+<div style="text-align:center;">
+  <input type="text" id="buscarCodigo" placeholder="Buscar por código (ej. P001)" onkeyup="buscarPorCodigo()">
+</div>
+
+<section class="catalogo">
+
+  <div class="producto" data-categoria="caballero" data-codigo="P001">
+    <div class="carousel" id="p1">
+      <img src="imagenes/producto1-1.jpg" class="active">
+      <img src="imagenes/producto1-2.jpg">
+      <button class="prev" onclick="prevSlide('p1')">&#10094;</button>
+      <button class="next" onclick="nextSlide('p1')">&#10095;</button>
+    </div>
+    <h2>Tenis Aero Caballero</h2>
+    <p><strong>Código:</strong> P001</p>
+    <p class="precio">Q199</p>
+    <p class="descripcion">Tenis ligeros con suela de tracción flexible.</p>
+    <a class="btn-whatsapp" href="https://wa.me/50246107733?text=Hola!%20Estoy%20interesado%20en%20los%20Tenis%20Aero%20Caballero%20de%20Q199" target="_blank">Pedir por WhatsApp</a>
+  </div>
+
+  <div class="producto" data-categoria="dama" data-codigo="P002">
+    <div class="carousel" id="p2">
+      <img src="https://images.unsplash.com/photo-1618354691373-96b9f17df1a2?w=800" class="active">
+      <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800">
+      <button class="prev" onclick="prevSlide('p2')">&#10094;</button>
+      <button class="next" onclick="nextSlide('p2')">&#10095;</button>
+    </div>
+    <h2>Tenis Breeze Dama</h2>
+    <p><strong>Código:</strong> P002</p>
+    <p class="precio">Q189</p>
+    <p class="descripcion">Diseño moderno y liviano. Ideales para caminatas o gimnasio.</p>
+    <a class="btn-whatsapp" href="https://wa.me/50246107733?text=Hola!%20Estoy%20interesada%20en%20los%20Tenis%20Breeze%20Dama%20de%20Q189" target="_blank">Pedir por WhatsApp</a>
+  </div>
+
+  <div class="producto" data-categoria="caballero" data-codigo="P003">
+    <div class="carousel" id="p3">
+      <img src="https://images.unsplash.com/photo-1528701800489-20be2b2e8ee8?w=800" class="active">
+      <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800">
+      <button class="prev" onclick="prevSlide('p3')">&#10094;</button>
+      <button class="next" onclick="nextSlide('p3')">&#10095;</button>
+    </div>
+    <h2>Tenis Urban Caballero</h2>
+    <p><strong>Código:</strong> P003</p>
+    <p class="precio">Q219</p>
+    <p class="descripcion">Estilo urbano con suela antideslizante.</p>
+    <a class="btn-whatsapp" href="https://wa.me/50246107733?text=Hola!%20Estoy%20interesado%20en%20los%20Tenis%20Urban%20Caballero%20de%20Q219" target="_blank">Pedir por WhatsApp</a>
+  </div>
+
+  <div class="producto" data-categoria="dama" data-codigo="P004">
+    <div class="carousel" id="p4">
+      <img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?w=800" class="active">
+      <img src="https://images.unsplash.com/photo-1526401485004-2fda9f2d5b66?w=800">
+      <button class="prev" onclick="prevSlide('p4')">&#10094;</button>
+      <button class="next" onclick="nextSlide('p4')">&#10095;</button>
+    </div>
+    <h2>Tenis Nova Dama</h2>
+    <p><strong>Código:</strong> P004</p>
+    <p class="precio">Q209</p>
+    <p class="descripcion">Amortiguación suave y diseño elegante.</p>
+    <a class="btn-whatsapp" href="https://wa.me/50246107733?text=Hola!%20Estoy%20interesada%20en%20los%20Tenis%20Nova%20Dama%20de%20Q209" target="_blank">Pedir por WhatsApp</a>
+  </div>
+
+</section>
+
+<footer>© 2025 Star Sport Guatemala | Todos los derechos reservados</footer>
+
+<div class="lightbox" id="lightbox">
+  <button onclick="cambiarImagen(-1)">&#10094;</button>
+  <img id="imagenAmpliada" src="" alt="Vista ampliada" />
+  <button onclick="cambiarImagen(1)">&#10095;</button>
+  <span class="cerrar" onclick="cerrarImagen()">&times;</span>
+</div>
+
+<script>
+  // Carrusel
+  function nextSlide(id){ const c=document.getElementById(id); const imgs=c.querySelectorAll("img"); let i=[...imgs].findIndex(img=>img.classList.contains("active")); imgs[i].classList.remove("active"); imgs[(i+1)%imgs.length].classList.add("active"); }
+  function prevSlide(id){ const c=document.getElementById(id); const imgs=c.querySelectorAll("img"); let i=[...imgs].findIndex(img=>img.classList.contains("active")); imgs[i].classList.remove("active"); imgs[(i-1+imgs.length)%imgs.length].classList.add("active"); }
+
+  // Filtrar por categoría
+  function filtrar(cat){ const productos=document.querySelectorAll(".producto"); const botones=document.querySelectorAll(".filtros button"); botones.forEach(b=>b.classList.remove("activo")); event.target.classList.add("activo"); productos.forEach(p=>{ p.style.display=(cat==="todos"||p.dataset.categoria===cat)?"block":"none"; }); }
+
+  // Buscar por código
+  function buscarPorCodigo(){ const valor=document.getElementById("buscarCodigo").value.toUpperCase(); const productos=document.querySelectorAll(".producto"); productos.forEach(p=>{ const codigo=p.dataset.codigo.toUpperCase(); p.style.display=codigo.includes(valor)?"block":"none"; }); }
+
+  // Lightbox
+  let imgsActuales=[], idx=0;
+  document.querySelectorAll(".carousel img").forEach(img=>{ img.addEventListener("click",()=>{ const c=img.closest(".carousel"); imgsActuales=[...c.querySelectorAll("img")].map(i=>i.src); idx=imgsActuales.indexOf(img.src); mostrarImagen(); }); });
+  function mostrarImagen(){ const lb=document.getElementById("lightbox"); const img=document.getElementById("imagenAmpliada"); img.src=imgsActuales[idx]; lb.style.display="flex"; }
+  function cambiarImagen(dir){ idx+=dir; if(idx<0) idx=imgsActuales.length-1; if(idx>=imgsActuales.length) idx=0; mostrarImagen(); }
+  function cerrarImagen(){ document.getElementById("lightbox").style.display="none"; }
+  const lb=document.getElementById("lightbox"); let startX=0,endX=0; lb.addEventListener("touchstart", e=>startX=e.changedTouches[0].screenX); lb.addEventListener("touchend", e=>{ endX=e.changedTouches[0].screenX; if(Math.abs(endX-startX)>50)cambiarImagen(endX>startX?-1:1); });
+</script>
+
+</body>
+</html>
